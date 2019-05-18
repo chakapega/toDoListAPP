@@ -13,17 +13,20 @@
     <div class="logo">To-do List</div>
   </header>
   <main>
-    <form action="" class="new-task_form">
-      <label for="new-task_form__input_name">The name of your new task</label>
-      <input type="text" name="" id="new-task_form__input_name">
-      <label for="new-task_form__input_description">Description of your new task</label>
-      <textarea name="" id="new-task_form__input_description" cols="30" rows="5"></textarea>
-      <div class="new-task_form__container">
-        <button>Add</button>
-        <button>Cancel</button>
+    <div class="new-task_container">
+      <label class="new-task_container__label_name" for="new-task_container__input_name">The name of your new task</label>
+      <input type="text" name="" id="new-task_container__input_name">
+      <label class="new-task_container__label_description" for="new-task_container__textarea_description">Description of your new task</label>
+      <textarea name="" id="new-task_container__textarea_description" cols="30" rows="5"></textarea>
+      <div class="new-task_container__btn">
+        <button class="new-task_container__btn_add">Add</button>
+        <button class="new-task_container__btn_cancel">Cancel</button>
       </div>
-    </form>
+    </div>
     <button class="add-new-task__button">Add Task</button>
+    <div class="added-tasks_container">
+      <span class="added-tasks_container_span">Added Tasks :</span>
+    </div>
   </main>
 </body>
 </html>
