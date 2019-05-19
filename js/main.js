@@ -6,6 +6,30 @@ addNewTaskButton.addEventListener('click', () => {
 
 const newTaskContainerBtnAdd = document.querySelector('.new-task_container__btn_add');
 newTaskContainerBtnAdd.addEventListener('click', () => {
-  console.log(document.querySelector('#new-task_container__input_name').value);
+  showNewTask(createNewTask());
 });
+
+const createNewTask = () => {
+  // const task = {
+  //   [document.querySelector('#new-task_container__input_name').value]: 
+  //   document.querySelector('#new-task_container__textarea_description').value
+  // };
+  
+  const taskContainer = document.createElement('div');
+  taskContainer.classList.add('added-task_container');
+
+  const taskSpan = document.createElement('span');
+  taskSpan.classList.add('added-task_span');
+  taskSpan.textContent = 'Name :' + document.querySelector('#new-task_container__input_name').value;
+  taskSpan.textContent += ' | Description :' + document.querySelector('#new-task_container__textarea_description').value;
+
+  taskContainer.appendChild(taskSpan);
+
+  return taskContainer;
+};
+
+const showNewTask = element => {
+  const addedTasksContainer = document.querySelector('.added-tasks_container');
+  addedTasksContainer.appendChild(element);
+};
 

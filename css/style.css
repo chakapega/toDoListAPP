@@ -67,7 +67,7 @@ main {
   width: 65vw;
   flex-direction: column;
   align-items: center;
-  background-color: #daecdc;
+  background-color: #b5d28363;
   border-radius: 7px;
 }
 
@@ -98,5 +98,22 @@ main {
 #new-task_container__textarea_description {
   border-radius: 5px;
   border: 1px solid #9da09a;
+}
+
+.added-task_container {
+  width: 60vw;
+  height: 6vh;
+  background-color: #a8c55e;
+  margin-top: 5px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.added-task_span {
+  overflow: hidden;
+  margin-left: 10px;
+  
 }
 
