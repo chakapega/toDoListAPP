@@ -5,28 +5,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>To-do List</title>
+  <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-firestore.js"></script>
   <link rel="stylesheet" href="./css/style.css">
-  <script src="./js/main.js" defer></script>
 </head>
 <body>
   <header>
     <div class="logo">To-do List</div>
   </header>
   <main>
-    <div class="new-task_container">
-      <label class="new-task_container__label_name" for="new-task_container__input_name">The name of your new task</label>
-      <input type="text" name="" id="new-task_container__input_name">
-      <label class="new-task_container__label_description" for="new-task_container__textarea_description">Description of your new task</label>
-      <textarea name="" id="new-task_container__textarea_description" cols="30" rows="5"></textarea>
-      <div class="new-task_container__btn">
-        <button class="new-task_container__btn_add">Add</button>
-        <button class="new-task_container__btn_cancel">Cancel</button>
+    <form class="new-task_form" action="">
+      <label class="new-task_form__label_name" for="new-task_form__input_name">The name of your new task</label>
+      <input type="text" name="name" id="new-task_form__input_name">
+      <label class="new-task_form__label_description" for="new-task_form__textarea_description">Description of your new task</label>
+      <textarea name="description" id="new-task_form__textarea_description" cols="30" rows="5"></textarea>
+      <div class="new-task_form__btn">
+        <button type="submit" class="new-task_form__btn_add">Add</button>
+        <button class="new-task_form__btn_cancel">Cancel</button>
       </div>
-    </div>
+    </form>
     <button class="add-new-task__button">Add Task</button>
     <div class="added-tasks_container">
       <span class="added-tasks_container_span">Added Tasks :</span>
     </div>
   </main>
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyAlpRLThwjE9-twmBMRN2J7xLhm2pQjA4o",
+      authDomain: "to-do-list-4bfa0.firebaseapp.com",
+      databaseURL: "https://to-do-list-4bfa0.firebaseio.com",
+      projectId: "to-do-list-4bfa0",
+      storageBucket: "to-do-list-4bfa0.appspot.com",
+      messagingSenderId: "206114869556",
+      appId: "1:206114869556:web:5ba3c68e76373167"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    db.settings({timestampInSnapshots: true});
+  </script>
+  <script src="./js/main.js"></script>
 </body>
 </html>
