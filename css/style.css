@@ -8,6 +8,7 @@ body {
   width: 100%;
   font-size: 20px;
   color: #4d614e;
+  background-color: #abce6f38;
 }
 
 header {
@@ -101,8 +102,7 @@ main {
 }
 
 .added-task_container {
-  width: 60vw;
-  height: 6vh;
+  width: 63vw;
   background-color: #a8c55e;
   margin-top: 5px;
   border-radius: 5px;
@@ -113,17 +113,11 @@ main {
 }
 
 .added-task_span {
-  overflow: hidden;
   margin-left: 10px;
-  
 }
 
 .x-span {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 40px;
-  width: 40px;
+  margin-right: 5px;
   cursor: pointer;
   font-weight: bold;
   font-size: 30px;

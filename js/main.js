@@ -1,26 +1,20 @@
 const addedTasksContainer = document.querySelector('.added-tasks_container');
 const newTaskForm = document.querySelector('.new-task_form');
+const addNewTaskButton = document.querySelector('.add-new-task__button');
+const newTaskFormBtnCancel = document.querySelector('.new-task_form__btn_cancel');
 
-window.onload = () => {
-  deletionTask();
-  loadingCurrent();
-};
-
-const loadingCurrent = () => {
-  db.collection('tasks').get().then(snapshot => {
-    snapshot.docs.forEach(doc => {
-      renderTask(doc);
-    });
+db.collection('tasks').onSnapshot(snapshot => {
+  let changes = snapshot.docChanges();
+  
+  changes.forEach(change => {
+    if(change.type === 'added') {
+      renderTask(change.doc);
+    } else if(change.type === 'removed') {
+      let addedTask = addedTasksContainer.querySelector('[data-id=' + change.doc.id + ']');
+      addedTasksContainer.removeChild(addedTask);
+    };
   });
-};
-
-const deletionTask = () => {
-  const quantityTasks = document.querySelectorAll('.added-task_container').length;
-
-  for(let i = 0; i < quantityTasks; i++) {
-    document.querySelector('.added-task_container').remove();
-  };
-};
+});
 
 const renderTask = doc => {
   const taskContainer = document.createElement('div');
@@ -29,8 +23,8 @@ const renderTask = doc => {
 
   const taskSpan = document.createElement('span');
   taskSpan.classList.add('added-task_span');
-  taskSpan.textContent = 'Name :' + doc.data().name;
-  taskSpan.textContent += ' | Description :' + doc.data().description;
+  taskSpan.textContent = 'Name: ' + doc.data().name;
+  taskSpan.textContent += ' | Description: ' + doc.data().description;
 
   const xSpan = document.createElement('span');
   xSpan.classList.add('x-span');
@@ -44,16 +38,19 @@ const renderTask = doc => {
   xSpan.addEventListener('click', e => {
     e.stopPropagation();
 
-    deletionTask();
-
     let id = e.target.parentElement.getAttribute('data-id');
     db.collection('tasks').doc(id).delete();
-
-    loadingCurrent();
   });
 };
 
-const addNewTaskButton = document.querySelector('.add-new-task__button');
+const cancelAddNewTask = () => {
+  document.querySelector('#new-task_form__input_name').value = '';
+  document.querySelector('#new-task_form__textarea_description').value = '';
+
+  document.querySelector('.new-task_form').style.display = 'none';
+  addNewTaskButton.style.display = 'inline';
+};
+
 addNewTaskButton.addEventListener('click', () => {
   document.querySelector('.new-task_form').style.display = 'flex';
   addNewTaskButton.style.display = 'none';
@@ -62,18 +59,22 @@ addNewTaskButton.addEventListener('click', () => {
 newTaskForm.addEventListener('submit', e => {
   e.preventDefault();
 
-  deletionTask();
+  if(e.srcElement[0].value !== '' && e.srcElement[1].value !== '') {
+    db.collection('tasks').add({
+      name: e.srcElement[0].value,
+      description: e.srcElement[1].value
+    });
 
-  db.collection('tasks').add({
-    name: e.srcElement[0].value,
-    description: e.srcElement[1].value
-  });
+    e.srcElement[0].value = '';
+    e.srcElement[1].value = '';
+  
+    document.querySelector('.new-task_form').style.display = 'none';
+    addNewTaskButton.style.display = 'inline';
+  } else{
+    alert('Please fill in all fields');
+  };
+});
 
-  e.srcElement[0].value = '';
-  e.srcElement[1].value = '';
-
-  document.querySelector('.new-task_form').style.display = 'none';
-  addNewTaskButton.style.display = 'inline';
-
-  loadingCurrent();
+newTaskFormBtnCancel.addEventListener('click', () => {
+  cancelAddNewTask();
 });
