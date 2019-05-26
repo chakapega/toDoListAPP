@@ -39,27 +39,30 @@ main {
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  height: 200px;
-  width: 400px;
+  height: 350px;
+  width: 600px;
   margin-bottom: 20px;
   margin-top: 20px;
+  z-index: 9999;
+  position: absolute;
+  background-color: #d7e8bc;
+  border: 2px solid #9da09a;
+  border-radius: 7px;
 }
 
 .add-new-task__button {
-  height: 40px;
-  width: 150px;
-  margin-top: 30px;
-  margin-bottom: 30px;
+  height: 30px;
+  width: 120px;
   border-radius: 7px;
   color: #4d614e;
   background-color: #d0dc88;
-  font-size: 25px;
+  font-size: 23px;
   font-family: 'Indie Flower', cursive;
   font-weight: bold;
 }
 
 .add-new-task__button:active {
-  font-size: 18px;
+  font-size: 22px;
 }
 
 .added-tasks_container {
@@ -70,13 +73,11 @@ main {
   align-items: center;
   background-color: #b5d28363;
   border-radius: 7px;
+  margin-top: 30px;
 }
 
 .added-tasks_container_span {
-  display: flex;
-  justify-content: center;
-  width: 65vw;
-  border-bottom: 2px dashed #5c7368;
+  height: 30px;
   font-size: 25px;
   font-weight: bold;
 }
@@ -94,11 +95,15 @@ main {
 #new-task_form__input_name {
   border-radius: 5px;
   border: 1px solid #9da09a;
+  height: 25px;
+  width: 250px;
 }
 
 #new-task_form__textarea_description {
   border-radius: 5px;
   border: 1px solid #9da09a;
+  width: 300px;
+  height: 110px;
 }
 
 .added-task_container {
@@ -121,5 +126,14 @@ main {
   cursor: pointer;
   font-weight: bold;
   font-size: 30px;
+}
+
+.added-tasks_container__header {
+  border-bottom: 2px dashed #5c7368;
+  width: 65vw;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 40px;
 }
 

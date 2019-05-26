@@ -43,38 +43,34 @@ const renderTask = doc => {
   });
 };
 
-const cancelAddNewTask = () => {
+const closeNewTaskForm = () => {
   document.querySelector('#new-task_form__input_name').value = '';
   document.querySelector('#new-task_form__textarea_description').value = '';
-
   document.querySelector('.new-task_form').style.display = 'none';
-  addNewTaskButton.style.display = 'inline';
 };
 
-addNewTaskButton.addEventListener('click', () => {
+const addNewTask = e => {
+  db.collection('tasks').add({
+    name: e.srcElement[0].value,
+    description: e.srcElement[1].value
+  });
+};
+
+addNewTaskButton.addEventListener('click', e => {
   document.querySelector('.new-task_form').style.display = 'flex';
-  addNewTaskButton.style.display = 'none';
 });
 
 newTaskForm.addEventListener('submit', e => {
   e.preventDefault();
 
   if(e.srcElement[0].value !== '' && e.srcElement[1].value !== '') {
-    db.collection('tasks').add({
-      name: e.srcElement[0].value,
-      description: e.srcElement[1].value
-    });
-
-    e.srcElement[0].value = '';
-    e.srcElement[1].value = '';
-  
-    document.querySelector('.new-task_form').style.display = 'none';
-    addNewTaskButton.style.display = 'inline';
+    addNewTask(e);
+    closeNewTaskForm();
   } else{
     alert('Please fill in all fields');
   };
 });
 
 newTaskFormBtnCancel.addEventListener('click', () => {
-  cancelAddNewTask();
+  closeNewTaskForm();
 });
