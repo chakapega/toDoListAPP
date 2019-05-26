@@ -5,8 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>To-do List</title>
-  <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-firestore.js"></script>
+  <link rel="shortcut icon" href="./images/title-icon.jpg" type="image/png">
   <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
@@ -29,22 +28,9 @@
       <span class="added-tasks_container_span">Added Tasks :</span>
     </div>
   </main>
-  <script>
-    //Firebase configuration
-    var firebaseConfig = {
-      apiKey: "AIzaSyAlpRLThwjE9-twmBMRN2J7xLhm2pQjA4o",
-      authDomain: "to-do-list-4bfa0.firebaseapp.com",
-      databaseURL: "https://to-do-list-4bfa0.firebaseio.com",
-      projectId: "to-do-list-4bfa0",
-      storageBucket: "to-do-list-4bfa0.appspot.com",
-      messagingSenderId: "206114869556",
-      appId: "1:206114869556:web:5ba3c68e76373167"
-    };
-    //Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    db.settings({timestampInSnapshots: true});
-  </script>
+  <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-firestore.js"></script>
+  <script src="./js/firebase.js"></script>
   <script src="./js/main.js"></script>
 </body>
 </html>
