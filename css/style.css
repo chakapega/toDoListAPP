@@ -59,6 +59,7 @@ main {
   font-size: 23px;
   font-family: 'Indie Flower', cursive;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .add-new-task__button:active {
@@ -121,13 +122,6 @@ main {
   margin-left: 10px;
 }
 
-.x-span {
-  margin-right: 5px;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 30px;
-}
-
 .added-tasks_container__header {
   border-bottom: 2px dashed #5c7368;
   width: 65vw;
@@ -135,5 +129,26 @@ main {
   justify-content: space-around;
   align-items: center;
   height: 40px;
+}
+
+.img-delete {
+  height: 26px;
+  width: 26px;
+  cursor: pointer;
+  opacity: 0.65;
+}
+
+.img-edit {
+  height: 26px;
+  width: 26px;
+  cursor: pointer;
+  opacity: 0.65;
+}
+
+.image-container {
+  display: flex;
+  width: 65px;
+  justify-content: space-around;
+  align-items: center;
 }
 

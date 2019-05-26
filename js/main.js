@@ -26,19 +26,31 @@ const renderTask = doc => {
   taskSpan.textContent = 'Name: ' + doc.data().name;
   taskSpan.textContent += ' | Description: ' + doc.data().description;
 
-  const xSpan = document.createElement('span');
-  xSpan.classList.add('x-span');
-  xSpan.textContent = 'X';
+  const imgDelete = document.createElement('img');
+  imgDelete.classList.add('img-delete');
+  imgDelete.title = 'Remove';
+  imgDelete.src = "./images/delete.png";
+
+  const imgEdit = document.createElement('img');
+  imgEdit.classList.add('img-edit');
+  imgEdit.title = 'Edit';
+  imgEdit.src = "./images/edit.png";
+
+  const imageContainer = document.createElement('div');
+  imageContainer.classList.add('image-container');
+
+  imageContainer.appendChild(imgEdit);
+  imageContainer.appendChild(imgDelete);
 
   taskContainer.appendChild(taskSpan);
-  taskContainer.appendChild(xSpan);
-
+  taskContainer.appendChild(imageContainer);
+  
   addedTasksContainer.appendChild(taskContainer);
 
-  xSpan.addEventListener('click', e => {
+  imgDelete.addEventListener('click', e => {
     e.stopPropagation();
 
-    let id = e.target.parentElement.getAttribute('data-id');
+    let id = e.target.parentElement.parentElement.getAttribute('data-id');
     db.collection('tasks').doc(id).delete();
   });
 };
