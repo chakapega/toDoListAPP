@@ -53,6 +53,13 @@ const renderTask = doc => {
     let id = e.target.parentElement.parentElement.getAttribute('data-id');
     db.collection('tasks').doc(id).delete();
   });
+
+  imgEdit.addEventListener('click', e => {
+    e.stopPropagation();
+
+    
+    console.log(db.collection('tasks').doc(imgEdit.parentElement.parentElement.getAttribute('data-id')))
+  });
 };
 
 const closeNewTaskForm = () => {
@@ -67,6 +74,10 @@ const addNewTask = e => {
     description: e.srcElement[1].value
   });
 };
+
+const editAddedTask = () => {
+
+}
 
 addNewTaskButton.addEventListener('click', e => {
   document.querySelector('.new-task_form').style.display = 'flex';

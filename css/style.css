@@ -51,6 +51,7 @@ main {
 }
 
 .add-new-task__button {
+  outline: none;
   height: 30px;
   width: 120px;
   border-radius: 7px;
@@ -152,3 +153,44 @@ main {
   align-items: center;
 }
 
+.new-task_form__btn_add {
+  outline: none;
+  height: 30px;
+  border-radius: 7px;
+  color: #4d614e;
+  background-color: #d0dc88;
+  font-size: 15px;
+}
+
+.new-task_form__btn_add:active {
+  font-size: 14px;
+}
+
+.new-task_form__btn_cancel {
+  outline: none;
+  height: 30px;
+  border-radius: 7px;
+  color: #4d614e;
+  background-color: #d0dc88;
+  font-size: 15px;
+}
+
+.new-task_form__btn_cancel:active {
+  font-size: 14px;
+}
+
+.edit-task_form {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 350px;
+  width: 600px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  z-index: 9999;
+  position: absolute;
+  background-color: #d7e8bc;
+  border: 2px solid #9da09a;
+  border-radius: 7px;
+}
