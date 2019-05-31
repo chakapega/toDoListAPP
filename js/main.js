@@ -57,8 +57,29 @@ const renderTask = doc => {
   imgEdit.addEventListener('click', e => {
     e.stopPropagation();
 
-    
-    console.log(db.collection('tasks').doc(imgEdit.parentElement.parentElement.getAttribute('data-id')))
+    editAddedTask(e);
+  });
+};
+
+const editAddedTask = e => {
+  let id = e.target.parentElement.parentElement.getAttribute('data-id');
+
+  db.collection('tasks').doc(id).get().then(doc => {
+    document.querySelector('#edit-task_form__input_name').value = doc.data().name;
+    document.querySelector('#edit-task_form__textarea_description').value = doc.data().description;
+
+    document.querySelector('.edit-task_form').style.display = 'flex';
+
+    document.querySelector('.edit-task_form').addEventListener('submit', e => {
+      e.preventDefault();
+
+      db.collection('tasks').doc(id).set({
+        name: e.srcElement[0].value,
+        description: e.srcElement[1].value
+      });
+
+      document.querySelector('.edit-task_form').style.display = 'none';
+    });
   });
 };
 
@@ -74,10 +95,6 @@ const addNewTask = e => {
     description: e.srcElement[1].value
   });
 };
-
-const editAddedTask = () => {
-
-}
 
 addNewTaskButton.addEventListener('click', e => {
   document.querySelector('.new-task_form').style.display = 'flex';
