@@ -63,7 +63,7 @@ const renderTask = doc => {
 
 const editAddedTask = e => {
   let idEditableTask = e.target.parentElement.parentElement.getAttribute('data-id');
-  const editTaskForm = document.querySelector('edit-task_form');
+  const editTaskForm = document.querySelector('.edit-task_form');
 
   db.collection('tasks').doc(idEditableTask).get().then(doc => {
     document.querySelector('#edit-task_form__input_name').value = doc.data().name;
