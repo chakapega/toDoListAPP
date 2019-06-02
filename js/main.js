@@ -62,31 +62,32 @@ const renderTask = doc => {
 };
 
 const editAddedTask = e => {
-  let id = e.target.parentElement.parentElement.getAttribute('data-id');
+  let idEditableTask = e.target.parentElement.parentElement.getAttribute('data-id');
+  const editTaskForm = document.querySelector('edit-task_form');
 
-  db.collection('tasks').doc(id).get().then(doc => {
+  db.collection('tasks').doc(idEditableTask).get().then(doc => {
     document.querySelector('#edit-task_form__input_name').value = doc.data().name;
     document.querySelector('#edit-task_form__textarea_description').value = doc.data().description;
 
-    document.querySelector('.edit-task_form').style.display = 'flex';
+    editTaskForm.style.display = 'flex';
 
-    document.querySelector('.edit-task_form').addEventListener('submit', e => {
+    editTaskForm.addEventListener('submit', e => {
       e.preventDefault();
 
-      db.collection('tasks').doc(id).set({
+      db.collection('tasks').doc(idEditableTask).set({
         name: e.srcElement[0].value,
         description: e.srcElement[1].value
       });
 
-      document.querySelector('.edit-task_form').style.display = 'none';
+      editTaskForm.style.display = 'none';
     });
   });
 };
 
 const closeNewTaskForm = () => {
+  document.querySelector('.new-task_form').style.display = 'none';
   document.querySelector('#new-task_form__input_name').value = '';
   document.querySelector('#new-task_form__textarea_description').value = '';
-  document.querySelector('.new-task_form').style.display = 'none';
 };
 
 const addNewTask = e => {
@@ -96,8 +97,12 @@ const addNewTask = e => {
   });
 };
 
-addNewTaskButton.addEventListener('click', e => {
+const showNewTaskForm = () => {
   document.querySelector('.new-task_form').style.display = 'flex';
+};
+
+addNewTaskButton.addEventListener('click', e => {
+  showNewTaskForm();
 });
 
 newTaskForm.addEventListener('submit', e => {
@@ -113,4 +118,11 @@ newTaskForm.addEventListener('submit', e => {
 
 newTaskFormBtnCancel.addEventListener('click', () => {
   closeNewTaskForm();
+});
+
+document.querySelector('body').addEventListener('click', e => {
+
+  if(!newTaskForm.contains(e.target) && e.target !== addNewTaskButton) {
+    closeNewTaskForm();
+  };
 });
