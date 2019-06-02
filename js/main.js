@@ -1,20 +1,20 @@
-const addedTasksContainer = document.querySelector('.added-tasks_container');
 const addNewTaskButton = document.querySelector('.add-new-task__button');
 
 db.collection('tasks').onSnapshot(snapshot => {
+  const addedTasksContainer = document.querySelector('.added-tasks_container');
   let changes = snapshot.docChanges();
   
   changes.forEach(change => {
     if(change.type === 'added') {
-      renderTask(change.doc);
+      renderTask(change.doc,addedTasksContainer);
     } else if(change.type === 'removed') {
-      let addedTask = addedTasksContainer.querySelector('[data-id=' + change.doc.id + ']');
-      addedTasksContainer.removeChild(addedTask);
+      let removedTask = addedTasksContainer.querySelector('[data-id=' + change.doc.id + ']');
+      addedTasksContainer.removeChild(removedTask);
     };
   });
 });
 
-const renderTask = doc => {
+const renderTask = (doc,parent) => {
   const taskContainer = document.createElement('div');
   taskContainer.classList.add('added-task_container');
   taskContainer.setAttribute('data-id', doc.id);
@@ -43,31 +43,69 @@ const renderTask = doc => {
   taskContainer.appendChild(taskSpan);
   taskContainer.appendChild(imageContainer);
   
-  addedTasksContainer.appendChild(taskContainer);
+  parent.appendChild(taskContainer);
 
   imgDelete.addEventListener('click', e => {
-    e.stopPropagation();
-
     let id = e.target.parentElement.parentElement.getAttribute('data-id');
     db.collection('tasks').doc(id).delete();
   });
 
   imgEdit.addEventListener('click', e => {
-    e.stopPropagation();
-
-    editAddedTask(e);
+    renderEditTaskForm(e);
   });
 };
 
-const editAddedTask = e => {
+const renderEditTaskForm = e => {
   let idEditableTask = e.target.parentElement.parentElement.getAttribute('data-id');
-  const editTaskForm = document.querySelector('.edit-task_form');
 
   db.collection('tasks').doc(idEditableTask).get().then(doc => {
-    document.querySelector('#edit-task_form__input_name').value = doc.data().name;
-    document.querySelector('#edit-task_form__textarea_description').value = doc.data().description;
-
-    editTaskForm.style.display = 'flex';
+    const editTaskForm = document.createElement('form');
+    editTaskForm.classList.add('edit-task_form');
+  
+    const editTaskFormLabelName = document.createElement('label');
+    editTaskFormLabelName.classList.add('edit-task_form__label_name');
+    editTaskFormLabelName.htmlFor = 'edit-task_form__input_name';
+    editTaskFormLabelName.textContent = 'The name of your task';
+  
+    const editTaskFormInputName = document.createElement('input');
+    editTaskFormInputName.type = 'text';
+    editTaskFormInputName.name = 'name';
+    editTaskFormInputName.id = 'edit-task_form__input_name';
+    editTaskFormInputName.value = doc.data().name;
+  
+    const editTaskFormLabelDescription = document.createElement('label');
+    editTaskFormLabelDescription.classList.add('edit-task_form__label_description');
+    editTaskFormLabelDescription.htmlFor = 'edit-task_form__textarea_description';
+    editTaskFormLabelDescription.textContent = 'Description of your task';
+  
+    const editTaskFormTextareaDescription = document.createElement('textarea');
+    editTaskFormTextareaDescription.name = 'description';
+    editTaskFormTextareaDescription.id = 'edit-task_form__textarea_description';
+    editTaskFormTextareaDescription.cols = '30';
+    editTaskFormTextareaDescription.rows = '5';
+    editTaskFormTextareaDescription.value = doc.data().description;
+  
+    const editTaskFormBtns = document.createElement('div');
+    editTaskFormBtns.classList.add('edit-task_form__btns');
+  
+    const editTaskFormBtnAdd = document.createElement('button');
+    editTaskFormBtnAdd.type = 'submit';
+    editTaskFormBtnAdd.classList.add('edit-task_form__btn_edit');
+    editTaskFormBtnAdd.textContent = 'Edit';
+  
+    const editTaskFormBtnCancel = document.createElement('button');
+    editTaskFormBtnCancel.type = 'button';
+    editTaskFormBtnCancel.classList.add('edit-task_form__btn_cancel');
+    editTaskFormBtnCancel.textContent = 'Cancel';
+  
+    editTaskForm.appendChild(editTaskFormLabelName);
+    editTaskForm.appendChild(editTaskFormInputName);
+    editTaskForm.appendChild(editTaskFormLabelDescription);
+    editTaskForm.appendChild(editTaskFormTextareaDescription);
+    editTaskForm.appendChild(editTaskFormBtns);
+  
+    editTaskFormBtns.appendChild(editTaskFormBtnAdd);
+    editTaskFormBtns.appendChild(editTaskFormBtnCancel);
 
     editTaskForm.addEventListener('submit', e => {
       e.preventDefault();
@@ -76,10 +114,21 @@ const editAddedTask = e => {
         name: e.srcElement[0].value,
         description: e.srcElement[1].value
       });
-
-      editTaskForm.style.display = 'none';
+      closeEditTaskForm();
     });
+
+    editTaskFormBtnCancel.addEventListener('click', () => {
+      closeEditTaskForm();
+    });
+
+    document.querySelector('main').appendChild(editTaskForm);
   });
+};
+
+const closeEditTaskForm = () => {
+  const editTaskForm = document.querySelector('.edit-task_form');
+
+  document.querySelector('main').removeChild(editTaskForm);
 };
 
 const closeNewTaskForm = () => {
@@ -174,6 +223,17 @@ document.querySelector('body').addEventListener('click', e => {
 
     if(!newTaskForm.contains(e.target) && e.target !== addNewTaskButton) {
       closeNewTaskForm();
+    };
+  };
+});
+
+document.querySelector('body').addEventListener('click', e => {
+  if(document.querySelector('.edit-task_form')) {
+    const editTaskForm = document.querySelector('.edit-task_form');
+    const imgEdit = document.querySelector('.img-edit');
+
+    if(!editTaskForm.contains(e.target) && e.target !== imgEdit) {
+      closeEditTaskForm();
     };
   };
 });
