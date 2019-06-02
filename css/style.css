@@ -35,12 +35,12 @@ main {
 }
 
 .new-task_form {
-  display: none;
+  display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  height: 350px;
-  width: 600px;
+  height: 380px;
+  width: 760px;
   margin-bottom: 20px;
   margin-top: 20px;
   z-index: 9999;
@@ -98,13 +98,13 @@ main {
   border-radius: 5px;
   border: 1px solid #9da09a;
   height: 25px;
-  width: 250px;
+  width: 300px;
 }
 
 #new-task_form__textarea_description {
   border-radius: 5px;
   border: 1px solid #9da09a;
-  width: 300px;
+  width: 400px;
   height: 110px;
 }
 
@@ -193,4 +193,10 @@ main {
   background-color: #d7e8bc;
   border: 2px solid #9da09a;
   border-radius: 7px;
+}
+
+.new-task_form__btns {
+  width: 150px;
+  display: flex;
+  justify-content: space-around;
 }

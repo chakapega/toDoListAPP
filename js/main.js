@@ -1,7 +1,5 @@
 const addedTasksContainer = document.querySelector('.added-tasks_container');
-const newTaskForm = document.querySelector('.new-task_form');
 const addNewTaskButton = document.querySelector('.add-new-task__button');
-const newTaskFormBtnCancel = document.querySelector('.new-task_form__btn_cancel');
 
 db.collection('tasks').onSnapshot(snapshot => {
   let changes = snapshot.docChanges();
@@ -85,9 +83,9 @@ const editAddedTask = e => {
 };
 
 const closeNewTaskForm = () => {
-  document.querySelector('.new-task_form').style.display = 'none';
-  document.querySelector('#new-task_form__input_name').value = '';
-  document.querySelector('#new-task_form__textarea_description').value = '';
+  const newTaskForm = document.querySelector('.new-task_form');
+
+  document.querySelector('main').removeChild(newTaskForm);
 };
 
 const addNewTask = e => {
@@ -98,31 +96,84 @@ const addNewTask = e => {
 };
 
 const showNewTaskForm = () => {
-  document.querySelector('.new-task_form').style.display = 'flex';
+  document.querySelector('main').appendChild(createNewTaskForm());
+};
+
+const createNewTaskForm = () => {
+  const newTaskForm = document.createElement('form');
+  newTaskForm.classList.add('new-task_form');
+
+  const newTaskFormLabelName = document.createElement('label');
+  newTaskFormLabelName.classList.add('new-task_form__label_name');
+  newTaskFormLabelName.htmlFor = 'new-task_form__input_name';
+  newTaskFormLabelName.textContent = 'The name of your new task';
+
+  const newTaskFormInputName = document.createElement('input');
+  newTaskFormInputName.type = 'text';
+  newTaskFormInputName.name = 'name';
+  newTaskFormInputName.id = 'new-task_form__input_name';
+
+  const newTaskFormLabelDescription = document.createElement('label');
+  newTaskFormLabelDescription.classList.add('new-task_form__label_description');
+  newTaskFormLabelDescription.htmlFor = 'new-task_form__textarea_description';
+  newTaskFormLabelDescription.textContent = 'Description of your new task';
+
+  const newTaskFormTextareaDescription = document.createElement('textarea');
+  newTaskFormTextareaDescription.name = 'description';
+  newTaskFormTextareaDescription.id = 'new-task_form__textarea_description';
+  newTaskFormTextareaDescription.cols = '30';
+  newTaskFormTextareaDescription.rows = '5';
+
+  const newTaskFormBtns = document.createElement('div');
+  newTaskFormBtns.classList.add('new-task_form__btns');
+
+  const newTaskFormBtnAdd = document.createElement('button');
+  newTaskFormBtnAdd.type = 'submit';
+  newTaskFormBtnAdd.classList.add('new-task_form__btn_add');
+  newTaskFormBtnAdd.textContent = 'Add';
+
+  const newTaskFormBtnCancel = document.createElement('button');
+  newTaskFormBtnCancel.type = 'button';
+  newTaskFormBtnCancel.classList.add('new-task_form__btn_cancel');
+  newTaskFormBtnCancel.textContent = 'Cancel';
+
+  newTaskForm.appendChild(newTaskFormLabelName);
+  newTaskForm.appendChild(newTaskFormInputName);
+  newTaskForm.appendChild(newTaskFormLabelDescription);
+  newTaskForm.appendChild(newTaskFormTextareaDescription);
+  newTaskForm.appendChild(newTaskFormBtns);
+
+  newTaskFormBtns.appendChild(newTaskFormBtnAdd);
+  newTaskFormBtns.appendChild(newTaskFormBtnCancel);
+
+  newTaskForm.addEventListener('submit', e => {
+    e.preventDefault();
+  
+    if(e.srcElement[0].value !== '' && e.srcElement[1].value !== '') {
+      addNewTask(e);
+      closeNewTaskForm();
+    } else{
+      alert('Please fill in all fields');
+    };
+  });
+
+  newTaskFormBtnCancel.addEventListener('click', () => {
+    closeNewTaskForm();
+  });
+
+  return newTaskForm;
 };
 
 addNewTaskButton.addEventListener('click', e => {
   showNewTaskForm();
 });
 
-newTaskForm.addEventListener('submit', e => {
-  e.preventDefault();
-
-  if(e.srcElement[0].value !== '' && e.srcElement[1].value !== '') {
-    addNewTask(e);
-    closeNewTaskForm();
-  } else{
-    alert('Please fill in all fields');
-  };
-});
-
-newTaskFormBtnCancel.addEventListener('click', () => {
-  closeNewTaskForm();
-});
-
 document.querySelector('body').addEventListener('click', e => {
+  if(document.querySelector('.new-task_form')) {
+    const newTaskForm = document.querySelector('.new-task_form');
 
-  if(!newTaskForm.contains(e.target) && e.target !== addNewTaskButton) {
-    closeNewTaskForm();
+    if(!newTaskForm.contains(e.target) && e.target !== addNewTaskButton) {
+      closeNewTaskForm();
+    };
   };
 });
